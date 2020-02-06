@@ -4,7 +4,7 @@ import argparse
 if __name__ == '__main__':
 
 
-    # EXEMPLO:  python Concatenador_parser.py -F "file.fasta file.nexus file.aln" -for "fasta"
+    # EXEMPLO:  python Concatenador_parser.py -f "file.fasta file.nexus file.aln" -for "fasta"
 
     # Part 0 - Passing arguments with argparse
     PARSER = argparse.ArgumentParser()
