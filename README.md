@@ -2,4 +2,4 @@
 
 Concatenator 2 will  be born here.
 
-Small test string.
+This program will concatenate various types of files.
