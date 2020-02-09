@@ -1,8 +1,10 @@
 stages:
  - pytestfasta
+ 
 fasta_test1:
  stage: pytestfasta
-script:
+ 
+ script:
  python3 -m pytest -v Testing/TestScrit/test_fasta_to_phylip.py
 
 
