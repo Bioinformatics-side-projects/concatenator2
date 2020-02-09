@@ -4,6 +4,9 @@ stages:
 fasta_test1:
  stage: pytestfasta
  
+ before_script:
+  - pip3 install -U pytest
+  
  script:
   - python3 -m pytest -v Testing/TestScrit/test_fasta_to_phylip.py
 
