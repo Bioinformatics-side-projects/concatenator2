@@ -12,6 +12,6 @@ fasta_test1:
   - pip3 install -U pytest
   
  script:
-  - python3 -m pytest -v Testing/TestScrit/test_fasta_to_phylip.py
+  - python3 -m pytest -v Testing/TestScript/test_fasta_to_phylip.py
 
 
