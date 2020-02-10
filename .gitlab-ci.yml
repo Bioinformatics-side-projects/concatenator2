@@ -1,3 +1,5 @@
+image: python:3.8-slim-buster
+
 stages:
  - pytestfasta
  
@@ -7,7 +9,6 @@ fasta_test1:
  stage: pytestfasta
  
  before_script:
-  - apt-get install -y python3-pip
   - pip3 install -U pytest
   
  script:
