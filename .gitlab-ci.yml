@@ -5,6 +5,7 @@ fasta_test1:
  stage: pytestfasta
  
  before_script:
+  - apt-get install -y python-pip
   - pip3 install -U pytest
   
  script:
