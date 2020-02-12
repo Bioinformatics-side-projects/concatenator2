@@ -1,4 +1,4 @@
-image: python:3.8-slim-buster
+image: marciom99/concatenator2:V1.0
 
 stages:
  - pytestfasta
