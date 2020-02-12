@@ -1,7 +1,7 @@
 from fasta_to_.class_fasta import fasta_converter
 
 def test_fast_main():
-    f = fasta_converter("testfasta.fasta","fasta","nexus","no")
+    f = fasta_converter("Testing/TestFilesInput/testfasta.fasta","fasta","nexus","no")
 
     sequence = {"IADE3":"-accccactatgctaagccataaatattgatagata-aattacaatactttccgccagagaactacaagtgaaaaacttgaaactcaaaggacttggcggtgtcccacattcagcctagaggagcctgtcctataatcgataccccacgttttacctcaccatcactagcact-aactcagcctatataccgccgtcga-cagcttaccccatgagggaaaaatagtaagcaaaatagc---cctccccgctaatacgtcaggtcaaggtgtagctcatgtgacggaagagattggctacattttttatattaaaaaacacggaatgctacatg--aaaaataacatgaaggcgaatttagtagtaagacagacaagagaacctgtcttaataatgctctgggacgcgcacacaccgcccgtcaccc",
                 "IGRA5":"-accccactatgctaagccataaatattgatagata-aattacaatactttccgccagagaactacaagtgaaaaacttgaaactcaaaggacttggcggtgtcccacattcagcctagaggagcctgtcctataatcgataccccacgttttacctcaccatcactagcact-aactcagcctatataccgccgtcga-cagcttaccccatgagggaaaaatagtaagcaaaatagc---cctccccgctaatacgtcaggtcaaggtgtagctcatgtgacggaagagattggctacattttttatattaaaaaacacggaatgctacatg--aaaaataacatgaaggcgaatttagtagtaagacagacaagagaacctgtcttaataatgctctgggacgcgcacacaccgcccgtcaccc",
