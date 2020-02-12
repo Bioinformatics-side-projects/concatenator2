@@ -4,11 +4,22 @@ stages:
  - pytestfasta
  
  
- 
 fasta_test1:
  stage: pytestfasta
  
  script:
-  - python3 -m pytest -v Testing/TestScript/test_fasta_to_phylip.py
+  - python3 -m pytest -vv Testing/TestScript/test_fasta_menu.py
+  
+fasta_test2:
+ stage: pytestfasta
+ 
+ script:
+  - python3 -m pytest -vv Testing/TestScript/test_fasta_to_nexu.py
+  
+fasta_test3:
+ stage: pytestfasta
+ 
+ script:
+  - python3 -m pytest -vv Testing/TestScript/test_fasta_to_phylip.py
 
 
