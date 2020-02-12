@@ -1,6 +1,6 @@
 from fasta_to_.class_fasta import fasta_converter
 
-f = fasta_converter("testfasta.fasta","fasta","phylip","no")
+f = fasta_converter("Testing/TestFilesInput/testfasta.fasta","fasta","phylip","no")
 
 def test_fasta_to_phylip1():
     result = "3 427 s\n\n" \
