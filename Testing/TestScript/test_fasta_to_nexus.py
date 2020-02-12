@@ -1,6 +1,6 @@
 from fasta_to_.class_fasta import fasta_converter
 
-f = fasta_converter("testfasta.fasta","fasta","nexus","no")
+f = fasta_converter("Testing/TestFilesInput/testfasta.fasta","fasta","nexus","no")
 
 def test_fasta_to_nexus1():
     result = "#Nexus\n\nBEGIN DATA;\nDIMENSIONS NTAX=3 " \
