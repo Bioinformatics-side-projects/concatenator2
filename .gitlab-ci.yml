@@ -14,7 +14,7 @@ fasta_test2:
  stage: pytestfasta
  
  script:
-  - python3 -m pytest -vv Testing/TestScript/test_fasta_to_nexu.py
+  - python3 -m pytest -vv Testing/TestScript/test_fasta_to_nexus.py
   
 fasta_test3:
  stage: pytestfasta
