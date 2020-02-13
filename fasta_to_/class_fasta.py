@@ -79,6 +79,6 @@ class fasta_converter:
         for start in range(0, self.lenght, 60):
             for name, seq in self.sequence.items():
                 size = len(self.b_taxa) - len(name)
-                clustal += " " * size + " {} {}\n".format(name,seq[start:start+60])
+                clustal += " " * size + "{} {}\n".format(name,seq[start:start+60])
             clustal += "\n"
         return clustal
