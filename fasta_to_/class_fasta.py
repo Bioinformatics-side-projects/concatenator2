@@ -59,7 +59,7 @@ class fasta_converter:
                           "  sumt filename=MyRun01;\n" \
                           "end;".format(self.taxa,self.lenght,seq,10)
 
-            return print(nexus)
+            return nexus
 
     def fasta_to_phylip(self):
         seq = ""
@@ -71,7 +71,7 @@ class fasta_converter:
         if self.concat == 'yes':
             return seq
         else:
-            return print("{} {} s\n\n{}".format(self.taxa, self.lenght, seq))
+            return "{} {} s\n\n{}".format(self.taxa, self.lenght, seq)
 
     def fasta_to_aln_clustal(self):
         clustal = "CLUSTAL W\n\n"
