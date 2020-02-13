@@ -83,4 +83,35 @@ class fasta_converter:
 
         else:
             return "{} {} s\n\n{}".format(self.taxa, self.lenght, seq)
+    
+    
+    def fasta_to_aln_clustal(self):
+        #print("self.sequence==", self.sequence)
+        #print(self.sequence.keys())
+        #print(self.sequence.values())
+
+        b_seq = len(sorted(self.sequence.values(), key=len)[-1])  # O tamanho da maior sequencia/value
+        b_name = sorted(self.sequence.keys(), key=len)[-1]  # Otamanho na maior nome/chave
+
+        """def funtion(nome, sequence, start, end, b_name):
+            variacao = len(b_name) - len(nome)
+            dist = variacao + 8
+            return nome + " " * dist + sequence[start:end] + "\n"
+        """
+
+        limit = 50
+        clustal = "CLUSTAL W (1.8) multiple sequence alignment (ALTER 1.3.3)\n\n\n"
+        for start in range(0, b_seq, limit):
+            end = start + limit
+            for name, seq in self.sequence.items():
+                variacao = len(b_name) - len(name)
+                dist = variacao + 8
+                clustal += name + " " * dist + seq[start:end] + "\n"
+                # clustal += funtion(name, seq, start, end, b_name)
+            clustal += "\n"
+        return clustal
+        
+        
+        
+        
 
