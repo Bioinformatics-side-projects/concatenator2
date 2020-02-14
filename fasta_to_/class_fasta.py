@@ -13,6 +13,12 @@ class fasta_converter:
         self.concat = concat
         self.b_taxa = ""
         self.fasta_rearrange()
+        if self.output == 'nexus':
+            self.fasta_to_nexus()
+        elif self.output == 'phylip':
+            self.fasta_to_phylip()
+        elif self.output == 'aln' or self.output == 'clustal':
+            self.fasta_to_aln_clustal()
 
     def fasta_rearrange(self):
             name, seq = "", ""
@@ -23,53 +29,65 @@ class fasta_converter:
                      name = line
                      self.taxa+=1
                   elif line.startswith(">"):
-                      self.sequence[name.replace(">","")] = seq
+                      if self.output != 'fasta':
+                         self.sequence[name.replace(">","")] = seq
+                      else:
+                          self.sequence[name] = seq
                       name = line
                       seq = ""
                       self.taxa+=1
                   else:
                       seq+=line
                   line = fasta_file.readline().rstrip()
-              self.sequence[name.replace(">","")] = seq
+              if self.output != 'fasta':
+                  self.sequence[name.replace(">", "")] = seq
+              else:
+                  self.sequence[name] = seq
               self.lenght = len(sorted(self.sequence.values(), key=len)[-1])
               self.b_taxa = sorted(self.sequence.keys(), key=len)[-1]
+
             return
 
     def fasta_to_nexus(self):
+        if self.concat == 'yes':
+            return self.sequence
+
         seq = ""
         for k, var in self.sequence.items():
             self.b_taxa = self.b_taxa[0:99] if len(self.b_taxa) >99 else self.b_taxa
             k = k[:99] if len(k) >= 99 else k
             size = len(self.b_taxa) - len(k)
             seq += " " * size + "{} {}".format(k, var) + "\n"
-        if self.concat == 'yes':
-            return seq
-        else:
-            nexus ="#Nexus\n\nBEGIN DATA;\nDIMENSIONS NTAX={} " \
-                          "NCHAR={};\nFORMAT DATATYPE=DNA MISSING=N GAP=-;" \
-                          "\nMATRIX\n" \
-                          "{}" \
-                          "  ;\nEND;\n\n" \
-                          "begin mrbayes;\n  set autoclose=yes nowarn=yes quitonerror=no;\n" \
-                          "  mcmcp ngen={} printfre=1000 samplefreq=100 diagnfre=1000" \
-                          " nchains=4 savebrlens=yes filename=MyRun01;\n" \
-                          "  mcmc;" \
-                          "  sumt filename=MyRun01;\n" \
-                          "end;".format(self.taxa,self.lenght,seq,10)
 
-            return nexus
+        nexus ="#Nexus\n\nBEGIN DATA;\nDIMENSIONS NTAX={} " \
+               "NCHAR={};\nFORMAT DATATYPE=DNA MISSING=N GAP=-;" \
+               "\nMATRIX\n" \
+               "{}" \
+               "  ;\nEND;\n\n" \
+               "begin mrbayes;\n  set autoclose=yes nowarn=yes quitonerror=no;\n" \
+               "  mcmcp ngen={} printfre=1000 samplefreq=100 diagnfre=1000" \
+               " nchains=4 savebrlens=yes filename=MyRun01;\n" \
+               "  mcmc;" \
+               "  sumt filename=MyRun01;\n" \
+               "end;".format(self.taxa,self.lenght,seq,10)
+
+        with open(self.file.replace(".fasta", ".nex"), "w+") as writ:
+             writ.write(nexus)
+        return
 
     def fasta_to_phylip(self):
+        if self.concat == 'yes':
+            return self.sequence
+
         seq = ""
 
         for k, v in self.sequence.items():
             size = len(self.b_taxa) - len(k)
             seq += " " * size + "{} {}\n".format(k, v)
 
-        if self.concat == 'yes':
-            return seq
-        else:
-            return "{} {} s\n\n{}".format(self.taxa, self.lenght, seq)
+        with open(self.file.replace(".fasta", ".phy"), "w+") as writ:
+            writ.write("{} {} s\n\n{}".format(self.taxa, self.lenght, seq))
+        return
 
     def fasta_to_aln_clustal(self):
         if self.concat == 'yes':
@@ -82,5 +100,11 @@ class fasta_converter:
                 size = len(self.b_taxa) - len(name)
                 clustal += " " * size + "{} {}\n".format(name,seq[start:start+60])
             clustal += "\n"
+
+        with open(self.file.replace(".fasta", ".aln"), "w+") as writ:
+            writ.write(clustal)
         return clustal
+
+
+
 
