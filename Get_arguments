@@ -1,8 +1,9 @@
+#from class_fasta import fasta_converter
+#from class_concatenator import concatenator
 import argparse
 
 
 if __name__ == '__main__':
-
 
     # EXEMPLO:  python Concatenador_parser.py -f "file.fasta file.nexus file.aln" -for "fasta"
 
@@ -12,6 +13,7 @@ if __name__ == '__main__':
     PARSER.add_argument('--files',
                         '-f',
                         type=str,
+                        nargs= '+',
                         help='Name of files to converter/concatenate')
 
     PARSER.add_argument('--format',
@@ -19,5 +21,32 @@ if __name__ == '__main__':
                         type=str,
                         help='Output file format')
 
+    PARSER.add_argument('--concatenate',
+                        '-c',
+                        type =str,
+                        help='Concatenate files or just align each file')
 
+    args = PARSER.parse_args()
+
+    l = args.files
+    output = args.format
+    concat = args.concatenate
+    l_len = []
+
+    for i, v in enumerate(l):
+        if ".fasta" in v:
+            f = fasta_converter(v, "fasta", output, concat)
+            if output == 'fasta':
+                if concat == 'no':
+                    print('Não retorna um ficheiro porque o formato já estava em fasta')
+                else:
+                    l[i] = f.sequence
+                    l_len.append(f.lenght)
+            else:
+                l[i] = f.sequence
+                l_len.append(f.lenght)
+
+
+    if concat == 'yes':
+        c = concatenator(l,l_len,output)
 
