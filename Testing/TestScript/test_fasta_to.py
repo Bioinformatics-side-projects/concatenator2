@@ -4,7 +4,7 @@ import filecmp
 def test_fasta_to_nexus():
     f = fasta_converter("Testing/TestFilesInput/testfasta.fasta", "fasta", "nexus", "no")
 
-    assert filecmp.cmp('testfasta.nex','Testing/TestFilesOutput/testfastaToNex.nex',shallow=False)
+    assert filecmp.cmp('Testing/TestFilesInput/testfasta.nex','Testing/TestFilesOutput/testfastaToNex.nex',shallow=False)
 
 def test_fasta_to_phylip():
     f = fasta_converter("Testing/TestFilesInput/testfasta.fasta", "fasta", "phylip", "no")
