@@ -1,0 +1,32 @@
+image: marciom99/concatenator2:V1.0
+
+stages:
+ - pytestFasta
+ - pytestNexus
+ - pytestMenu
+ - pytestConcat
+ 
+ 
+menu_test:
+ stage: pytestMenu
+ 
+ script:
+  - python3 -m pytest -vv Testing/TestScript/test_menu.py
+  
+fasta_test:
+ stage: pytestFasta
+ 
+ script:
+  - python3 -m pytest -vv Testing/TestScript/test_fasta_to.py
+  
+nexus_test:
+ stage: pytestNexus
+ 
+ script:
+  - python3 -m pytest -vv Testing/TestScript/test_nexus_to.py
+
+concat_test:
+ stage: pytestConcat
+ 
+ script:
+  - python3 -m pytest -vv Testing/TestScript/test_concat.py
