@@ -25,9 +25,9 @@ def test_concat_main():
 def test_concat_fasta():
     f = concatenator(test_list_dict, test_len, 'fasta')
 
-    assert cmp("concat.fasta","concatTest.fasta",shallow=False)
+    assert cmp("concat.fasta","Testing/TestFilesOutput/concatTest.fasta",shallow=False)
 
 def test_concat_fasta():
     n = concatenator(test_list_dict, test_len, 'nexus')
 
-    assert cmp("concat.nex","concatNexus.nex",shallow=False)
+    assert cmp("concat.nex","Testing/TestFilesOutput/concatNexus.nex",shallow=False)
