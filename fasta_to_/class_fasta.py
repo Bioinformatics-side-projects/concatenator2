@@ -23,57 +23,58 @@ class fasta_converter:
     def fasta_rearrange(self):
             name, seq = "", ""
             with open(self.file, "r") as fasta_file:
-              line = fasta_file.readline().rstrip()
+              line = fasta_file.readline()
               while line:
                   if line.startswith(">") and name == "":
-                     name = line
+                     name = line.strip()
                      self.taxa+=1
                   elif line.startswith(">"):
-                      if self.output != 'fasta':
-                         self.sequence[name.replace(">","")] = seq
-                      else:
-                          self.sequence[name] = seq
-                      name = line
+                      self.sequence[name.replace(">","")] = seq
+                      name = line.strip()
                       seq = ""
                       self.taxa+=1
                   else:
-                      seq+=line
-                  line = fasta_file.readline().rstrip()
-              if self.output != 'fasta':
-                  self.sequence[name.replace(">", "")] = seq
-              else:
-                  self.sequence[name] = seq
+                      seq+=line.strip()
+                  line = fasta_file.readline()
+              self.sequence[name.replace(">", "")] = seq
               self.lenght = len(sorted(self.sequence.values(), key=len)[-1])
               self.b_taxa = sorted(self.sequence.keys(), key=len)[-1]
 
-            return
-
     def fasta_to_nexus(self):
         if self.concat == 'yes':
+            seq = {}
+            for k, v in self.sequence.items():
+
+                if len(k)>99:
+                    seq[k[:99]] = self.sequence[k]
+                else:
+                    seq[k] = self.sequence[k]
+            self.sequence = seq.copy()
             return self.sequence
 
         seq = ""
+
         for k, var in self.sequence.items():
             self.b_taxa = self.b_taxa[0:99] if len(self.b_taxa) >99 else self.b_taxa
             k = k[:99] if len(k) >= 99 else k
             size = len(self.b_taxa) - len(k)
             seq += " " * size + "{} {}".format(k, var) + "\n"
 
-        nexus ="#Nexus\n\nBEGIN DATA;\nDIMENSIONS NTAX={} " \
-               "NCHAR={};\nFORMAT DATATYPE=DNA MISSING=N GAP=-;" \
-               "\nMATRIX\n" \
-               "{}" \
-               "  ;\nEND;\n\n" \
-               "begin mrbayes;\n  set autoclose=yes nowarn=yes quitonerror=no;\n" \
-               "  mcmcp ngen={} printfre=1000 samplefreq=100 diagnfre=1000" \
-               " nchains=4 savebrlens=yes filename=MyRun01;\n" \
-               "  mcmc;" \
-               "  sumt filename=MyRun01;\n" \
-               "end;".format(self.taxa,self.lenght,seq,10)
+        nexus = "#Nexus\n\nBEGIN DATA;\nDIMENSIONS NTAX={} " \
+                "NCHAR={};\nFORMAT DATATYPE=DNA MISSING=N GAP=-;" \
+                "\nMATRIX\n" \
+                "{}" \
+                "  ;\nEND;\n\n" \
+                "begin mrbayes;\n  set autoclose=yes nowarn=yes quitonerror=no;\n" \
+                "  mcmcp ngen={} printfre=1000 samplefreq=100 diagnfre=1000" \
+                " nchains=4 savebrlens=yes filename=MyRun01;\n" \
+                "  mcmc;" \
+                "  sumt filename=MyRun01;\n" \
+                "end;".format(self.taxa, self.lenght, seq, 10)
+
 
         with open(self.file.replace(".fasta", ".nex"), "w+") as writ:
              writ.write(nexus)
-        return
 
     def fasta_to_phylip(self):
         if self.concat == 'yes':
@@ -87,13 +88,12 @@ class fasta_converter:
 
         with open(self.file.replace(".fasta", ".phy"), "w+") as writ:
             writ.write("{} {} s\n\n{}".format(self.taxa, self.lenght, seq))
-        return
 
     def fasta_to_aln_clustal(self):
         if self.concat == 'yes':
             return self.sequence
 
-        clustal = "CLUSTAL W\n\n"
+        clustal = "CLUSTAL W:\n\n"
 
         for start in range(0, self.lenght, 60):
             for name, seq in self.sequence.items():
@@ -103,8 +103,3 @@ class fasta_converter:
 
         with open(self.file.replace(".fasta", ".aln"), "w+") as writ:
             writ.write(clustal)
-        return clustal
-
-
-
-
