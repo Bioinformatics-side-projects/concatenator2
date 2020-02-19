@@ -1,4 +1,5 @@
 #from class_fasta import fasta_converter
+#from class_nexus import nexus_converter
 #from class_concatenator import concatenator
 import argparse
 
@@ -38,13 +39,25 @@ if __name__ == '__main__':
             f = fasta_converter(v, "fasta", output, concat)
             if output == 'fasta':
                 if concat == 'no':
-                    print('Não retorna um ficheiro porque o formato já estava em fasta')
+                    print('Não retorna um ficheiro porque o formato já estava em fasta - {}'.format(v))
                 else:
                     l[i] = f.sequence
                     l_len.append(f.lenght)
             else:
                 l[i] = f.sequence
                 l_len.append(f.lenght)
+
+        elif ".nex" in v:
+            n = nexus_converter(v, "nexus", output, concat)
+            if output == 'nexus':
+                if concat == 'no':
+                    print('Não retorna um ficheiro porque o formato já estava em nexus - {}'.format(v))
+                else:
+                    l[i] = n.sequence
+                    l_len.append(n.lenght)
+            else:
+                l[i] = n.sequence
+                l_len.append(n.lenght)
 
 
     if concat == 'yes':
