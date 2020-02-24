@@ -1,4 +1,3 @@
-
 class aln_converter():
     def __init__(self, file_name, concat):
         self.inside_file = open(file_name, 'r').read()
@@ -13,25 +12,26 @@ class aln_converter():
         self._split_name_sequence()
 
     def _split_name_sequence(self):
-        # print(self.inside_file.split("\n"))
-        self.dict_name_seq = {}
+
         for line in self.inside_file.split("\n"):
 
             if not line.startswith("CLUSTAL W"):
                 if line != "":
                     name = line.split(" ")[0]
                     seq = "".join(line.split(" ")[1:])
-                    # print(name + "--" + seq)
                     if name in self.dict_name_seq.keys():
                         self.dict_name_seq[name] = self.dict_name_seq[name] + seq
+
                     else:
                         self.dict_name_seq[name] = seq
+                        self.taxa += 1
+        self.lenght = len(sorted(self.dict_name_seq.values(), key=len)[-1])
+        self.b_taxa = sorted(self.dict_name_seq.keys(), key=len)[-1]
 
-        print("self.dict_name_seq=", self.dict_name_seq)
+    def aln_to_nexus(self):
+        if self.concat == 'yes':
+            return self.dict_name_seq.items()
 
-    # ----------------------
-    # usar no programtodo
-    def _dict_to_nexus(self):
         seq = ""
         for k, var in self.dict_name_seq.items():
             self.b_taxa = self.b_taxa[0:99] if len(self.b_taxa) > 99 else self.b_taxa
@@ -50,34 +50,33 @@ class aln_converter():
                 "  mcmc;" \
                 "  sumt filename=MyRun01;\n" \
                 "end;".format(self.taxa, self.lenght, seq, 10)
-        return nexus
 
-    def aln_to_nexus(self):
-        return self._dict_to_nexus()
+        with open(self.file.replace(".aln", ".nex"), "w+") as writ:
+            writ.write(nexus)
 
-    # ------------------
-    # usar no programtodo
-    def _dict_to_fasta(self):
+    def aln_to_fasta(self):
+        if self.concat == 'yes':
+            return self.dict_name_seq.items()
         fasta = ""
         for name, seq in self.dict_name_seq.items():
             fasta += ">"+name+"\n"+seq+"\n\n"
-        print("fasta=\n"+fasta)
-        return fasta 
+        with open(self.file.replace(".aln", ".fasta"), "w+") as writ:
+            writ.write(nexus)
 
-    def aln_to_fasta(self):
-        return self._dict_to_fasta()
-
-    # -------------------
-    # usar no programtodo
-    def _dict_to_phylip(self):  
+    def aln_to_phylip(self):
+        if self.concat == 'yes':
+            return self.dict_name_seq.items()
         seq = ""
+
         for k, v in self.dict_name_seq.items():
             size = len(self.b_taxa) - len(k)
             seq += " " * size + "{} {}\n".format(k, v)
-        return "{} {} s\n\n{}".format(self.taxa, self.lenght, seq)
-    
-    def aln_to_phylip(self):
-        return self._dict_to_phylip()
+
+        phylip = "{} {} s\n\n{}".format(self.number_org, self.lenght, seq)
+        with open(self.file.replace(".aln", ".phylip"), "w+") as writ:
+            writ.write(phylip)
+
+
 
 
 if __name__ == '__main__':
