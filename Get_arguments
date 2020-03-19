@@ -1,7 +1,10 @@
-#from class_fasta import fasta_converter
-#from class_nexus import nexus_converter
-#from class_concatenator import concatenator
+from class_fasta import fasta_converter
+from class_nexus import nexus_converter
+from class_phylip import phylip_converter
+from class_concatenator import concatenator
+from aln_to__aln_to__class_converter_aln import aln_converter
 import argparse
+from gui_pysimgui import layout_gui
 
 
 if __name__ == '__main__':
@@ -34,6 +37,16 @@ if __name__ == '__main__':
     concat = args.concatenate
     l_len = []
 
+    if l==None and output==None and concat== None:
+        l, output,concat = layout_gui()
+    elif l == None:
+        raise Exception('Sem ficheiros')
+    elif output!='fasta' and output!='nexus' and output!='phylip' and output!='aln' and output!='clustal':
+        raise Exception('formato errado')
+    elif concat!='yes' and concat!='no':
+        raise Exception('nao foi definido')
+
+
     for i, v in enumerate(l):
         if ".fasta" in v:
             f = fasta_converter(v, "fasta", output, concat)
@@ -59,6 +72,29 @@ if __name__ == '__main__':
                 l[i] = n.sequence
                 l_len.append(n.lenght)
 
+        elif ".phy" in v:
+            p = phylip_converter(v, "phylip", output, concat)
+            if output == 'phylip':
+                if concat == 'no':
+                    print('Não retorna um ficheiro porque o formato já estava em phylip - {}'.format(v))
+                else:
+                    l[i] = p.sequence
+                    l_len.append(p.lenght)
+            else:
+                l[i] = p.sequence
+                l_len.append(p.lenght)
+
+        elif ".aln" in v:
+            a = aln_converter(v, output, concat)
+            if output == 'aln' or output == 'clustal':
+                if concat == 'no':
+                    print('Não retorna um ficheiro porque o formato já estava em clustal - {}'.format(v))
+                else:
+                    l[i] = a.sequence
+                    l_len.append(a.lenght)
+            else:
+                l[i] = a.sequence
+                l_len.append(a.lenght)
 
     if concat == 'yes':
         c = concatenator(l,l_len,output)
