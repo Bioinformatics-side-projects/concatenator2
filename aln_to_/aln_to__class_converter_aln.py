@@ -1,32 +1,39 @@
 class aln_converter():
-    def __init__(self, file_name, concat):
+    def __init__(self, file_name,out ,concat):
+        self.file = file_name
         self.inside_file = open(file_name, 'r').read()
-        # self.file = file// filename
         # self.input = fast//aln
-        # self.output = out//qual o out
         self.taxa = 0
         self.lenght = 0
-        self.sequence = {}
+        self.output = out
+        self.dict_name_seq = {}
         self.concat = concat
         self.b_taxa = ""
         self._split_name_sequence()
+        if self.output == 'fasta':
+            self.aln_to_fasta()
+        elif self.output == 'nexus':
+            self.aln_to_nexus()
+        elif self.output == 'phylip':
+            self.aln_to_phylip()
 
     def _split_name_sequence(self):
-
         for line in self.inside_file.split("\n"):
-
-            if not line.startswith("CLUSTAL W"):
+            if not line.startswith("CLUSTAL W:"):
                 if line != "":
-                    name = line.split(" ")[0]
-                    seq = "".join(line.split(" ")[1:])
+                    name = line.lstrip().split(" ")[0]
+                    seq = line.lstrip().split(" ")[1]
                     if name in self.dict_name_seq.keys():
-                        self.dict_name_seq[name] = self.dict_name_seq[name] + seq
+                        self.dict_name_seq[name] += seq
 
                     else:
                         self.dict_name_seq[name] = seq
                         self.taxa += 1
         self.lenght = len(sorted(self.dict_name_seq.values(), key=len)[-1])
         self.b_taxa = sorted(self.dict_name_seq.keys(), key=len)[-1]
+
+
+
 
     def aln_to_nexus(self):
         if self.concat == 'yes':
@@ -59,9 +66,11 @@ class aln_converter():
             return self.dict_name_seq.items()
         fasta = ""
         for name, seq in self.dict_name_seq.items():
-            fasta += ">"+name+"\n"+seq+"\n\n"
+            fasta += ">"+name+"\n"
+            for sep in range(0,self.lenght,60):
+                fasta += "{}\n".format(seq[sep:sep+60])
         with open(self.file.replace(".aln", ".fasta"), "w+") as writ:
-            writ.write(nexus)
+            writ.write(fasta)
 
     def aln_to_phylip(self):
         if self.concat == 'yes':
@@ -72,18 +81,7 @@ class aln_converter():
             size = len(self.b_taxa) - len(k)
             seq += " " * size + "{} {}\n".format(k, v)
 
-        phylip = "{} {} s\n\n{}".format(self.number_org, self.lenght, seq)
-        with open(self.file.replace(".aln", ".phylip"), "w+") as writ:
+        phylip = "{} {} s\n\n{}".format(self.taxa, self.lenght, seq)
+        with open(self.file.replace(".aln", ".phy"), "w+") as writ:
             writ.write(phylip)
 
-
-
-
-if __name__ == '__main__':
-    print("inicio...")
-    convert = aln_converter("reln.crulsta", "yes")
-    # convert._split_name_sequence()
-    # convert.aln_to_nexus()
-    # convert.aln_to_fasta()
-    convert.aln_to_phylip()
-    
