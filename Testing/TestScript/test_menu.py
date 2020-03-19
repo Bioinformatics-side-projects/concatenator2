@@ -28,7 +28,7 @@ def test_aln_main():
                 "IGRA5":"-accccactatgctaagccataaatattgatagata-aattacaatactttccgccagagaactacaagtgaaaaacttgaaactcaaaggacttggcggtgtcccacattcagcctagaggagcctgtcctataatcgataccccacgttttacctcaccatcactagcact-aactcagcctatataccgccgtcga-cagcttaccccatgagggaaaaatagtaagcaaaatagc---cctccccgctaatacgtcaggtcaaggtgtagctcatgtgacggaagagattggctacattttttatattaaaaaacacggaatgctacatg--aaaaataacatgaaggcgaatttagtagtaagacagacaagagaacctgtcttaataatgctctgggacgcgcacacaccgcccgtcaccc",
                 "Podarcis":"-nnnnnactatgctaagccctgaacattgatagttactaatacaatactttccgccagagaactacaagtgaaaaacttaaaactcaaaggacttgacggtgtcccata-tcggcctagaggagcctgtcctataatcgatattccccgctccacccaacctcaactagcaag-tattcagcctatataccgccgtcga-cagtttaccctatgaaggcctaatagtagacacaatag----ccttaacgctaatacgtcaggtcaaggtgtagcaaatgttgaggaagagattggctacattttttatgataaaaaatacgaattgcactatg--aaatactgcatgaaggcgaatttagtagtaaaacagataagagtgtctgttttaacaacgctctgggacgcgtacacnnnnnnnnnnnnnn"}
 
-    assert sequence == a.sequence
+    assert sequence == a.dict_name_seq
     
 def test_phylip_main():
     p = phylip_converter("Testing/TestFilesInput/testPhylip.phy","phylip","nexus","yes")
