@@ -1,0 +1,34 @@
+CLUSTAL W:
+
+   IADE3 -accccactatgctaagccataaatattgatagata-aattacaatactttccgccagag
+   IGRA5 -accccactatgctaagccataaatattgatagata-aattacaatactttccgccagag
+Podarcis -nnnnnactatgctaagccctgaacattgatagttactaatacaatactttccgccagag
+
+   IADE3 aactacaagtgaaaaacttgaaactcaaaggacttggcggtgtcccacattcagcctaga
+   IGRA5 aactacaagtgaaaaacttgaaactcaaaggacttggcggtgtcccacattcagcctaga
+Podarcis aactacaagtgaaaaacttaaaactcaaaggacttgacggtgtcccata-tcggcctaga
+
+   IADE3 ggagcctgtcctataatcgataccccacgttttacctcaccatcactagcact-aactca
+   IGRA5 ggagcctgtcctataatcgataccccacgttttacctcaccatcactagcact-aactca
+Podarcis ggagcctgtcctataatcgatattccccgctccacccaacctcaactagcaag-tattca
+
+   IADE3 gcctatataccgccgtcga-cagcttaccccatgagggaaaaatagtaagcaaaatagc-
+   IGRA5 gcctatataccgccgtcga-cagcttaccccatgagggaaaaatagtaagcaaaatagc-
+Podarcis gcctatataccgccgtcga-cagtttaccctatgaaggcctaatagtagacacaatag--
+
+   IADE3 --cctccccgctaatacgtcaggtcaaggtgtagctcatgtgacggaagagattggctac
+   IGRA5 --cctccccgctaatacgtcaggtcaaggtgtagctcatgtgacggaagagattggctac
+Podarcis --ccttaacgctaatacgtcaggtcaaggtgtagcaaatgttgaggaagagattggctac
+
+   IADE3 attttttatattaaaaaacacggaatgctacatg--aaaaataacatgaaggcgaattta
+   IGRA5 attttttatattaaaaaacacggaatgctacatg--aaaaataacatgaaggcgaattta
+Podarcis attttttatgataaaaaatacgaattgcactatg--aaatactgcatgaaggcgaattta
+
+   IADE3 gtagtaagacagacaagagaacctgtcttaataatgctctgggacgcgcacacaccgccc
+   IGRA5 gtagtaagacagacaagagaacctgtcttaataatgctctgggacgcgcacacaccgccc
+Podarcis gtagtaaaacagataagagtgtctgttttaacaacgctctgggacgcgtacacnnnnnnn
+
+   IADE3 gtcaccc
+   IGRA5 gtcaccc
+Podarcis nnnnnnn
+
