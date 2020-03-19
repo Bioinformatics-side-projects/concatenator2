@@ -31,3 +31,13 @@ def test_concat_nexus():
     n = concatenator(test_list_dict, test_len, 'nexus')
 
     assert cmp("concat.nex","Testing/TestFilesOutput/concatNexus.nex",shallow=False)
+
+def test_concat_phylip():
+    p = concatenator(test_list_dict, test_len, 'phylip')
+
+    assert cmp("concat.phy","Testing/TestFilesOutput/concatPhylip.phy",shallow=False)
+
+def test_concat_aln_clustal():
+    a = concatenator(test_list_dict, test_len, 'aln')
+
+    assert cmp("concat.aln","Testing/TestFilesOutput/concatAln.aln",shallow=False)
