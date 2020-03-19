@@ -1,0 +1,100 @@
+import argparse
+from gui_pysimgui import layout_gui
+from fasta_to_.class_fasta import fasta_converter
+from nexus_to_.class_nexus import nexus_converter
+from phylip_to_.class_phylip import phylip_converter
+from aln_to_.aln_to__aln_to__class_converter_aln import aln_converter
+from class_concatenator import concatenator
+
+if __name__ == '__main__':
+
+    # EXEMPLO:  python Concatenador_parser.py -f "file.fasta file.nexus file.aln" -for "fasta"
+
+    # Part 0 - Passing arguments with argparse
+    PARSER = argparse.ArgumentParser()
+
+    PARSER.add_argument('--files',
+                        '-f',
+                        type=str,
+                        nargs= '+',
+                        help='Name of files to converter/concatenate')
+
+    PARSER.add_argument('--format',
+                        '-for',
+                        type=str,
+                        help='Output file format')
+
+    PARSER.add_argument('--concatenate',
+                        '-c',
+                        type =str,
+                        help='Concatenate files or just align each file')
+
+    args = PARSER.parse_args()
+
+    l = args.files
+    output = args.format
+    concat = args.concatenate
+    l_len = []
+
+    if l==None and output==None and concat== None:
+        l, output,concat = layout_gui()
+    elif l == None:
+        raise Exception('Sem ficheiros')
+    elif output!='fasta' and output!='nexus' and output!='phylip' and output!='aln' and output!='clustal':
+        raise Exception('formato errado')
+    elif concat!='yes' and concat!='no':
+        raise Exception('nao foi definido')
+
+
+    for i, v in enumerate(l):
+        if ".fasta" in v:
+            f = fasta_converter(v, "fasta", output, concat)
+            if output == 'fasta':
+                if concat == 'no':
+                    print('Não retorna um ficheiro porque o formato já estava em fasta - {}'.format(v))
+                else:
+                    l[i] = f.sequence
+                    l_len.append(f.lenght)
+            else:
+                l[i] = f.sequence
+                l_len.append(f.lenght)
+
+        elif ".nex" in v:
+            n = nexus_converter(v, "nexus", output, concat)
+            if output == 'nexus':
+                if concat == 'no':
+                    print('Não retorna um ficheiro porque o formato já estava em nexus - {}'.format(v))
+                else:
+                    l[i] = n.sequence
+                    l_len.append(n.lenght)
+            else:
+                l[i] = n.sequence
+                l_len.append(n.lenght)
+
+        elif ".phy" in v:
+            p = phylip_converter(v, "phylip", output, concat)
+            if output == 'phylip':
+                if concat == 'no':
+                    print('Não retorna um ficheiro porque o formato já estava em phylip - {}'.format(v))
+                else:
+                    l[i] = p.sequence
+                    l_len.append(p.lenght)
+            else:
+                l[i] = p.sequence
+                l_len.append(p.lenght)
+
+        elif ".aln" in v:
+            a = aln_converter(v, output, concat)
+            if output == 'aln' or output == 'clustal':
+                if concat == 'no':
+                    print('Não retorna um ficheiro porque o formato já estava em clustal - {}'.format(v))
+                else:
+                    l[i] = a.sequence
+                    l_len.append(a.lenght)
+            else:
+                l[i] = a.sequence
+                l_len.append(a.lenght)
+
+    if concat == 'yes':
+        c = concatenator(l,l_len,output)
+
