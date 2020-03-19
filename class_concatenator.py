@@ -14,6 +14,10 @@ class concatenator:
             self.output_fasta()
         elif self.output == 'nexus':
             self.output_nexus()
+        elif self.output == 'phylip':
+            self.output_phylip()
+        elif self.output == 'aln':
+            self.output_aln_clustal()
 
     def create_main_dict(self):
         for file in self.file_list:
@@ -58,5 +62,27 @@ class concatenator:
                                "  mcmc;" \
                                "  sumt filename=MyRun01;\n" \
                                "end;".format(self.taxa, self.lenght, seq, 10))
+
+    def output_phylip(self):
+        seq = ''
+        for key, value in self.main_dict.items():
+            seq += '{}{} {}\n'.format(" " * (len(self.b_taxa) - len(key)), key, value)
+
+        with open("concat.phy", "w+") as writ:
+            writ.write("{} {} s\n\n{}".format(self.taxa, self.lenght, seq))
+
+    def output_aln_clustal(self):
+        clustal = "CLUSTAL W:\n\n"
+
+        for start in range(0, self.lenght, 60):
+            for name, seq in self.main_dict.items():
+                size = len(self.b_taxa) - len(name)
+                clustal += " " * size + "{} {}\n".format(name, seq[start:start + 60])
+            clustal += "\n"
+
+        with open("concat.aln", "w+") as writ:
+            writ.write(clustal)
+
+
 
 
