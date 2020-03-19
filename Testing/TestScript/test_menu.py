@@ -1,6 +1,7 @@
 from fasta_to_.class_fasta import fasta_converter
 from nexus_to_.class_nexus import nexus_converter
 from aln_to_.aln_to__class_converter_aln import aln_converter
+from phylip_to_.class_phylip import phylip_converter
 
 def test_fast_main():
     f = fasta_converter("Testing/TestFilesInput/testfasta.fasta","fasta","nexus","yes")
